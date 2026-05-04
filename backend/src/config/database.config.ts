@@ -3,24 +3,33 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('database', () => {
   const rawHost = process.env.DB_HOST || 'localhost';
   const normalizedHost = rawHost.replace(/\\\\/g, '\\');
-  const [host, instanceFromHost] = normalizedHost.includes('\\')
-    ? normalizedHost.split('\\', 2)
-    : [normalizedHost, undefined];
+  const database = process.env.DB_DATABASE || 'HealthcareInventoryDB';
+  const encrypt = process.env.DB_ENCRYPT === 'true';
+  const trustServerCertificate = process.env.DB_TRUST_CERT === 'true';
 
   return {
     type: 'mssql' as const,
     driver: require('mssql/msnodesqlv8'),
-    host,
+    host: normalizedHost,
     port: parseInt(process.env.DB_PORT ?? '1433', 10),
-    database: process.env.DB_DATABASE || 'HealthcareInventoryDB',
+    database,
     extra: {
-      driver: 'ODBC Driver 18 for SQL Server',
+      connectionString:
+        'Driver={ODBC Driver 18 for SQL Server};' +
+        `Server=${normalizedHost};` +
+        `Database=${database};` +
+        'Trusted_Connection=Yes;' +
+        `Encrypt=${encrypt ? 'Yes' : 'No'};` +
+        `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
+        'Persist Security Info=False;' +
+        'Pooling=False;' +
+        'MultipleActiveResultSets=False;' +
+        'Command Timeout=2147483647;',
     },
     options: {
       trustedConnection: true,
-      encrypt: process.env.DB_ENCRYPT === 'true',
-      trustServerCertificate: process.env.DB_TRUST_CERT === 'true',
-      instanceName: process.env.DB_INSTANCE || instanceFromHost || undefined,
+      encrypt,
+      trustServerCertificate,
     },
     autoLoadEntities: true,
     synchronize: false, // Never auto-sync — we use SQL scripts

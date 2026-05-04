@@ -32,7 +32,6 @@ import { PatientModule } from './modules/patient/patient.module';
           trustServerCertificate: configService.get<boolean>(
             'database.options.trustServerCertificate',
           ),
-          instanceName: configService.get<string>('database.options.instanceName'),
         },
         autoLoadEntities: true,
         synchronize: false,
