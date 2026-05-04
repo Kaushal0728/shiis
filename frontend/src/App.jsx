@@ -13,12 +13,13 @@ import { useAuth } from "./contexts/useAuth";
 function ComingSoon({ name }) {
   return (
     <div className="flex flex-col items-center justify-center py-32 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-surface-800/60 border border-surface-700/40 flex items-center justify-center mb-4">
+      <div className="w-16 h-16 rounded-2xl bg-surface-100 border border-surface-300/50 flex items-center justify-center mb-4">
         <span className="text-2xl">{"\u{1F6A7}"}</span>
       </div>
-      <h2 className="text-xl font-bold text-white mb-2">{name}</h2>
-      <p className="text-sm text-surface-400 max-w-md">
-        This module is under development. The foundation is in place and ready for backend integration.
+      <h2 className="text-xl font-bold text-surface-900 mb-2">{name}</h2>
+      <p className="text-sm text-surface-500 max-w-md">
+        This module is under development. The foundation is in place and ready
+        for backend integration.
       </p>
     </div>
   );
@@ -46,12 +47,30 @@ export default function App() {
               <Route path="/users/:id/edit" element={<UserForm />} />
             </Route>
 
-            <Route path="/doctors" element={<ComingSoon name="Doctor Management" />} />
-            <Route path="/appointments" element={<ComingSoon name="Appointment System" />} />
-            <Route path="/prescriptions" element={<ComingSoon name="Prescription System" />} />
-            <Route path="/inventory" element={<ComingSoon name="Inventory & Medicine" />} />
-            <Route path="/suppliers" element={<ComingSoon name="Suppliers & Purchase Orders" />} />
-            <Route path="/billing" element={<ComingSoon name="Billing System" />} />
+            <Route
+              path="/doctors"
+              element={<ComingSoon name="Doctor Management" />}
+            />
+            <Route
+              path="/appointments"
+              element={<ComingSoon name="Appointment System" />}
+            />
+            <Route
+              path="/prescriptions"
+              element={<ComingSoon name="Prescription System" />}
+            />
+            <Route
+              path="/inventory"
+              element={<ComingSoon name="Inventory & Medicine" />}
+            />
+            <Route
+              path="/suppliers"
+              element={<ComingSoon name="Suppliers & Purchase Orders" />}
+            />
+            <Route
+              path="/billing"
+              element={<ComingSoon name="Billing System" />}
+            />
             <Route path="/lab" element={<ComingSoon name="Lab Management" />} />
           </Route>
         </Route>

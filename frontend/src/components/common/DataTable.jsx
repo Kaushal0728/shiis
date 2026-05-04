@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function DataTable({
   columns = [],
@@ -8,7 +8,7 @@ export default function DataTable({
   limit = 20,
   onPageChange,
   onRowClick,
-  emptyMessage = 'No records found',
+  emptyMessage = "No records found",
 }) {
   const totalPages = Math.ceil(total / limit) || 1;
 
@@ -18,11 +18,11 @@ export default function DataTable({
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-surface-700/40">
+            <tr className="border-b border-surface-300/50 bg-surface-100/70">
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-4 py-3 text-left text-xs font-semibold text-surface-400 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-semibold text-surface-500 uppercase tracking-wider"
                   style={{ width: col.width }}
                 >
                   {col.label}
@@ -30,12 +30,12 @@ export default function DataTable({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-surface-700/30">
+          <tbody className="divide-y divide-surface-200/70">
             {data.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-4 py-12 text-center text-surface-500"
+                  className="px-4 py-12 text-center text-surface-400"
                 >
                   {emptyMessage}
                 </td>
@@ -46,11 +46,11 @@ export default function DataTable({
                   key={row.id || row.patientId || idx}
                   onClick={() => onRowClick?.(row)}
                   className={`transition-colors duration-150
-                    ${onRowClick ? 'cursor-pointer hover:bg-surface-700/30' : ''}
+                    ${onRowClick ? "cursor-pointer hover:bg-primary-50/60" : ""}
                   `}
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 text-surface-300">
+                    <td key={col.key} className="px-4 py-3 text-surface-700">
                       {col.render ? col.render(row) : row[col.key]}
                     </td>
                   ))}
@@ -63,16 +63,16 @@ export default function DataTable({
 
       {/* Pagination */}
       {total > limit && (
-        <div className="flex items-center justify-between px-4 py-3 border-t border-surface-700/40">
+        <div className="flex items-center justify-between px-4 py-3 border-t border-surface-200/70">
           <p className="text-xs text-surface-400">
-            Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of{' '}
+            Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of{" "}
             {total}
           </p>
           <div className="flex items-center gap-1">
             <button
               onClick={() => onPageChange?.(page - 1)}
               disabled={page <= 1}
-              className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -83,9 +83,10 @@ export default function DataTable({
                   key={pageNum}
                   onClick={() => onPageChange?.(pageNum)}
                   className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors
-                    ${pageNum === page
-                      ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
-                      : 'text-surface-400 hover:text-white hover:bg-surface-700/50'
+                    ${
+                      pageNum === page
+                        ? "bg-primary-500/15 text-primary-600 border border-primary-500/30"
+                        : "text-surface-500 hover:text-surface-900 hover:bg-surface-100"
                     }
                   `}
                 >
@@ -96,7 +97,7 @@ export default function DataTable({
             <button
               onClick={() => onPageChange?.(page + 1)}
               disabled={page >= totalPages}
-              className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

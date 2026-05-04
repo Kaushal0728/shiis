@@ -1,23 +1,29 @@
-import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { X } from "lucide-react";
+import { useEffect } from "react";
 
-export default function Modal({ isOpen, onClose, title, children, size = 'md' }) {
+export default function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = "md",
+}) {
   // Close on Escape
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
-    if (isOpen) document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    if (isOpen) document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const widths = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
+    sm: "max-w-md",
+    md: "max-w-lg",
+    lg: "max-w-2xl",
+    xl: "max-w-4xl",
   };
 
   return (
@@ -30,14 +36,14 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' })
 
       {/* Modal */}
       <div
-        className={`relative ${widths[size]} w-full mx-4 bg-surface-800 border border-surface-700/50 rounded-xl shadow-2xl animate-fade-in`}
+        className={`relative ${widths[size]} w-full mx-4 bg-white border border-surface-300/60 rounded-xl shadow-2xl animate-fade-in`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-700/40">
-          <h3 className="text-lg font-semibold text-white">{title}</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200/70">
+          <h3 className="text-lg font-semibold text-surface-900">{title}</h3>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/60 transition-colors"
+            className="p-1.5 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>

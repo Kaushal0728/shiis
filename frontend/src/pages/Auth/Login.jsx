@@ -60,31 +60,31 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-950 text-white flex items-center justify-center px-4 py-10 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 text-surface-900 flex items-center justify-center px-4 py-10 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary-500/15 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-500/10 blur-3xl" />
+        <div className="absolute -top-20 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-primary-200/40 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-200/30 blur-3xl" />
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at top, rgba(13, 148, 136, 0.18), transparent 30%), linear-gradient(180deg, #020617 0%, #07111d 100%)",
+              "radial-gradient(circle at top, rgba(22, 163, 74, 0.08), transparent 30%)",
           }}
         />
       </div>
 
       <div className="relative w-full max-w-5xl grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-center">
         <section className="hidden lg:block space-y-6 pr-6">
-          <div className="inline-flex items-center gap-3 rounded-full border border-surface-700/50 bg-surface-900/60 px-4 py-2 text-sm text-surface-300 backdrop-blur-xl">
-            <Hospital className="h-4 w-4 text-primary-400" />
+          <div className="inline-flex items-center gap-3 rounded-full border border-primary-200/60 bg-white/80 px-4 py-2 text-sm text-surface-600 backdrop-blur-xl">
+            <Hospital className="h-4 w-4 text-primary-500" />
             SHIIS Healthcare Intelligence System
           </div>
 
           <div className="space-y-4 max-w-xl">
-            <h1 className="text-5xl font-semibold tracking-tight leading-tight">
+            <h1 className="text-5xl font-semibold tracking-tight leading-tight text-surface-900">
               Secure access for patient management and operations.
             </h1>
-            <p className="text-surface-300 text-lg leading-8">
+            <p className="text-surface-500 text-lg leading-8">
               Sign in to manage patients, dashboards, and healthcare workflows
               from a single control center.
             </p>
@@ -99,9 +99,9 @@ export default function Login() {
             ].map((item) => (
               <div
                 key={item}
-                className="glass-card p-4 text-sm text-surface-300"
+                className="glass-card p-4 text-sm text-surface-600"
               >
-                <ShieldCheck className="mb-3 h-5 w-5 text-primary-400" />
+                <ShieldCheck className="mb-3 h-5 w-5 text-primary-500" />
                 {item}
               </div>
             ))}
@@ -111,17 +111,19 @@ export default function Login() {
         <section className="glass-card p-6 sm:p-8 lg:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
           <div className="mb-8 flex items-center gap-3">
             <div
-              className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-[0_0_30px_rgba(13,148,136,0.35)]"
+              className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-[0_0_30px_rgba(22,163,74,0.25)]"
               style={{
                 backgroundImage:
-                  "linear-gradient(135deg, #0d9488 0%, #4f46e5 100%)",
+                  "linear-gradient(135deg, #16a34a 0%, #10b981 100%)",
               }}
             >
               <Hospital className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold">Sign in</h2>
-              <p className="text-sm text-surface-400">
+              <h2 className="text-2xl font-semibold text-surface-900">
+                Sign in
+              </h2>
+              <p className="text-sm text-surface-500">
                 Use your SHIIS account to continue.
               </p>
             </div>
@@ -150,7 +152,7 @@ export default function Login() {
             />
 
             {error && (
-              <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
                 {error}
               </div>
             )}
@@ -165,18 +167,18 @@ export default function Login() {
               <ArrowRight className="h-4 w-4" />
             </Button>
 
-            <p className="text-xs text-surface-500 leading-6">
+            <p className="text-xs text-surface-400 leading-6">
               Authentication is backed by the database `User` and `Role` tables.
               Your visible tabs depend on the role assigned to the signed-in
               user.
             </p>
           </form>
 
-          <div className="mt-8 flex items-center justify-between border-t border-surface-700/40 pt-5 text-xs text-surface-500">
+          <div className="mt-8 flex items-center justify-between border-t border-surface-200/70 pt-5 text-xs text-surface-400">
             <span>Protected access</span>
             <Link
               to="/"
-              className="text-primary-400 hover:text-primary-300 transition-colors"
+              className="text-primary-600 hover:text-primary-700 transition-colors"
             >
               Back to dashboard
             </Link>

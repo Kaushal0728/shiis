@@ -6,7 +6,7 @@ export default function FormSelect({
   options = [],
   error,
   required = false,
-  placeholder = 'Select...',
+  placeholder = "Select...",
   ...props
 }) {
   return (
@@ -14,7 +14,7 @@ export default function FormSelect({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-surface-300"
+          className="block text-sm font-medium text-surface-600"
         >
           {label}
           {required && <span className="text-red-400 ml-0.5">*</span>}
@@ -28,18 +28,21 @@ export default function FormSelect({
         required={required}
         className={`
           w-full px-3.5 py-2.5 rounded-[var(--radius-input)] text-sm
-          bg-surface-800/60 border text-surface-200
+          bg-white border text-surface-800
           focus:outline-none focus:ring-2 transition-all duration-200 cursor-pointer
-          ${error
-            ? 'border-red-500/50 focus:ring-red-500/20 focus:border-red-500/60'
-            : 'border-surface-700/40 focus:ring-primary-500/20 focus:border-primary-500/50'
+          ${
+            error
+              ? "border-red-400/60 focus:ring-red-500/20 focus:border-red-500/60"
+              : "border-surface-300/70 focus:ring-primary-500/20 focus:border-primary-500/60"
           }
         `}
         {...props}
       >
-        <option value="" className="bg-surface-800 text-surface-400">{placeholder}</option>
+        <option value="" className="bg-white text-surface-400">
+          {placeholder}
+        </option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} className="bg-surface-800">
+          <option key={opt.value} value={opt.value} className="bg-white">
             {opt.label}
           </option>
         ))}

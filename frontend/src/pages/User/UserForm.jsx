@@ -105,7 +105,9 @@ export default function UserForm() {
 
       setTimeout(() => navigate("/users"), 1200);
     } catch (err) {
-      const msg = err.response?.data?.message || "Something went wrong. Please try again.";
+      const msg =
+        err.response?.data?.message ||
+        "Something went wrong. Please try again.";
       setErrors({ submit: Array.isArray(msg) ? msg.join(", ") : msg });
     } finally {
       setLoading(false);
@@ -120,27 +122,31 @@ export default function UserForm() {
         <button
           type="button"
           onClick={() => navigate("/users")}
-          className="p-2 rounded-lg text-surface-400 hover:text-white hover:bg-surface-800/60 transition-colors"
+          className="p-2 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-white">{isEdit ? "Edit User" : "Create User"}</h1>
-          <p className="text-sm text-surface-400 mt-0.5">
-            {isEdit ? "Update user account information" : "Create a new user account with role access"}
+          <h1 className="text-2xl font-bold text-surface-900">
+            {isEdit ? "Edit User" : "Create User"}
+          </h1>
+          <p className="text-sm text-surface-500 mt-0.5">
+            {isEdit
+              ? "Update user account information"
+              : "Create a new user account with role access"}
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="glass-card p-6 space-y-5">
         {success && (
-          <div className="px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-400 animate-fade-in">
+          <div className="px-4 py-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700 animate-fade-in">
             {success}
           </div>
         )}
 
         {errors.submit && (
-          <div className="px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400 animate-fade-in">
+          <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600 animate-fade-in">
             {errors.submit}
           </div>
         )}
@@ -175,11 +181,17 @@ export default function UserForm() {
           onChange={handleChange}
           error={errors.password}
           required={!isEdit}
-          placeholder={isEdit ? "Leave blank to keep current password" : "Enter password"}
+          placeholder={
+            isEdit ? "Leave blank to keep current password" : "Enter password"
+          }
         />
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-surface-700/30">
-          <Button type="button" variant="secondary" onClick={() => navigate("/users")}>
+        <div className="flex justify-end gap-3 pt-4 border-t border-surface-200/60">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => navigate("/users")}
+          >
             Cancel
           </Button>
           <Button type="submit" loading={loading}>
