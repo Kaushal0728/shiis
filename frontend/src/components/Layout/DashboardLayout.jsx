@@ -27,9 +27,15 @@ export default function DashboardLayout() {
     pageTitles[location.pathname] ||
     (location.pathname.includes("/users")
       ? "User Management"
-      : location.pathname.includes("/patients")
-        ? "Patient Management"
-        : "SHIIS");
+      : location.pathname.includes("/patients") &&
+          location.pathname.endsWith("/edit")
+        ? "Edit Patient"
+        : location.pathname.includes("/patients") &&
+            !location.pathname.endsWith("/new")
+          ? "Patient Details"
+          : location.pathname.includes("/patients")
+            ? "Patient Management"
+            : "SHIIS");
 
   return (
     <div className="flex min-h-screen bg-surface-100">

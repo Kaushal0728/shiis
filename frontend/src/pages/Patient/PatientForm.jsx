@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Save, ArrowLeft } from "lucide-react";
+import { toast } from "react-toastify";
 import patientService from "../../api/services/patientService";
 import FormInput from "../../components/common/FormInput";
 import FormSelect from "../../components/common/FormSelect";
@@ -32,7 +33,6 @@ export default function PatientForm() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const [success, setSuccess] = useState("");
 
   // Load existing patient for edit
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function PatientForm() {
             address: patient.address || "",
           });
         })
-        .catch((err) => {
-          console.error("Failed to load patient:", err);
+        .catch(() => {
+          toast.error("Failed to load patient data.");
         })
         .finally(() => setFetching(false));
     }
@@ -86,22 +86,21 @@ export default function PatientForm() {
     if (!validate()) return;
 
     setLoading(true);
-    setSuccess("");
     try {
       if (isEdit) {
         await patientService.update(id, form);
-        setSuccess("Patient updated successfully!");
+        toast.success("Patient updated successfully!");
       } else {
         await patientService.create(form);
-        setSuccess("Patient created successfully!");
+        toast.success("Patient registered successfully!");
         setForm(initialForm);
       }
-      setTimeout(() => navigate("/patients"), 1200);
+      setTimeout(() => navigate("/patients"), 1000);
     } catch (err) {
       const msg =
         err.response?.data?.message ||
         "Something went wrong. Please try again.";
-      setErrors({ submit: Array.isArray(msg) ? msg.join(", ") : msg });
+      toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
     } finally {
       setLoading(false);
     }
@@ -110,7 +109,7 @@ export default function PatientForm() {
   if (fetching) return <Loader text="Loading patient data..." />;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
         <button
@@ -133,20 +132,6 @@ export default function PatientForm() {
 
       {/* Form Card */}
       <form onSubmit={handleSubmit} className="glass-card p-6 space-y-5">
-        {/* Success */}
-        {success && (
-          <div className="px-4 py-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700 animate-fade-in">
-            {success}
-          </div>
-        )}
-
-        {/* Server Error */}
-        {errors.submit && (
-          <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600 animate-fade-in">
-            {errors.submit}
-          </div>
-        )}
-
         {/* Name Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormInput

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit3, Plus, Search, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 import userService from "../../api/services/userService";
 import Button from "../../components/common/Button";
 import DataTable from "../../components/common/DataTable";
@@ -14,14 +15,12 @@ export default function UserList() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState("");
   const [deleteModal, setDeleteModal] = useState({ open: false, user: null });
   const [deleting, setDeleting] = useState(false);
   const limit = 15;
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
-    setError("");
     try {
       if (search.trim()) {
         const result = await userService.search(search);
@@ -36,7 +35,7 @@ export default function UserList() {
       setTotal(result?.total || 0);
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to load users.";
-      setError(Array.isArray(msg) ? msg.join(", ") : msg);
+      toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
       setUsers([]);
       setTotal(0);
     } finally {
@@ -55,11 +54,13 @@ export default function UserList() {
     setDeleting(true);
     try {
       await userService.delete(deleteModal.user.userId || deleteModal.user.id);
+      const name = deleteModal.user.username || deleteModal.user.name;
       setDeleteModal({ open: false, user: null });
+      toast.success(`User "${name}" deleted successfully.`);
       fetchUsers();
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to delete user.";
-      setError(Array.isArray(msg) ? msg.join(", ") : msg);
+      toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
     } finally {
       setDeleting(false);
     }
@@ -81,7 +82,7 @@ export default function UserList() {
       label: "User",
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
+          <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
             {(row.username || row.name || "U").charAt(0).toUpperCase()}
           </div>
           <div>
@@ -159,12 +160,6 @@ export default function UserList() {
           className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-white border border-surface-300/60 text-sm text-surface-700 placeholder-surface-400 focus:outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/20 transition-all"
         />
       </div>
-
-      {error && (
-        <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600">
-          {error}
-        </div>
-      )}
 
       {loading ? (
         <Loader text="Fetching users..." />

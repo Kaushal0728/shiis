@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 export default function Modal({
   isOpen,
@@ -8,7 +9,6 @@ export default function Modal({
   children,
   size = "md",
 }) {
-  // Close on Escape
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "Escape") onClose();
@@ -26,11 +26,11 @@ export default function Modal({
     xl: "max-w-4xl",
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
+      {/* Backdrop — no blur */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-black/40 animate-fade-in"
         onClick={onClose}
       />
 
@@ -52,6 +52,7 @@ export default function Modal({
         {/* Body */}
         <div className="px-6 py-4">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

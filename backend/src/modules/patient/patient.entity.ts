@@ -3,7 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  OneToMany,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'Patient' })
@@ -32,6 +32,26 @@ export class Patient {
   @Column({ name: 'address', type: 'varchar', length: 255, nullable: true })
   address: string;
 
+  // ── Soft delete ──────────────────────────────────────────────────────────
+  @Column({ name: 'is_deleted', type: 'bit', default: false })
+  isDeleted: boolean;
+
+  @Column({ name: 'deleted_at', type: 'datetime', nullable: true })
+  deletedAt: Date | null;
+
+  @Column({ name: 'deleted_by', type: 'int', nullable: true })
+  deletedBy: number | null;
+
+  // ── Timestamps ───────────────────────────────────────────────────────────
   @CreateDateColumn({ name: 'created_at', type: 'datetime', nullable: true })
   createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'datetime', nullable: true })
+  updatedAt: Date;
+
+  @Column({ name: 'created_by', type: 'int', nullable: true })
+  createdBy: number | null;
+
+  @Column({ name: 'updated_by', type: 'int', nullable: true })
+  updatedBy: number | null;
 }

@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Auth/Login";
 import PatientList from "./pages/Patient/PatientList";
 import PatientForm from "./pages/Patient/PatientForm";
+import PatientDetail from "./pages/Patient/PatientDetail";
 import UserList from "./pages/User/UserList";
 import UserForm from "./pages/User/UserForm";
 import { useAuth } from "./contexts/useAuth";
@@ -39,6 +40,7 @@ export default function App() {
 
             <Route path="/patients" element={<PatientList />} />
             <Route path="/patients/new" element={<PatientForm />} />
+            <Route path="/patients/:id" element={<PatientDetail />} />
             <Route path="/patients/:id/edit" element={<PatientForm />} />
 
             <Route element={<AdminRoute />}>

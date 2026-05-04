@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsDateString,
   IsEnum,
+  IsInt,
   MaxLength,
   IsNotEmpty,
 } from 'class-validator';
@@ -47,4 +48,9 @@ export class CreatePatientDto {
   @IsString()
   @MaxLength(255)
   address?: string;
+
+  /** Injected server-side from the JWT — not accepted from the request body */
+  @IsOptional()
+  @IsInt()
+  createdBy?: number;
 }

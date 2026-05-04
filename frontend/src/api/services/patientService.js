@@ -1,13 +1,17 @@
-import api from '../axiosInstance';
+import api from "../axiosInstance";
 
-const ENDPOINT = '/patients';
+const ENDPOINT = "/patients";
 
 const patientService = {
   /**
    * Get paginated list of patients
    */
   getAll: (page = 1, limit = 20) =>
-    api.get(ENDPOINT, { params: { page, limit } }).then((res) => res.data),
+    api
+      .get(ENDPOINT, {
+        params: { page, limit, sortBy: "patientId", sortOrder: "ASC" },
+      })
+      .then((res) => res.data),
 
   /**
    * Search patients by name
@@ -18,14 +22,12 @@ const patientService = {
   /**
    * Get single patient by ID
    */
-  getById: (id) =>
-    api.get(`${ENDPOINT}/${id}`).then((res) => res.data),
+  getById: (id) => api.get(`${ENDPOINT}/${id}`).then((res) => res.data),
 
   /**
    * Create a new patient
    */
-  create: (data) =>
-    api.post(ENDPOINT, data).then((res) => res.data),
+  create: (data) => api.post(ENDPOINT, data).then((res) => res.data),
 
   /**
    * Update an existing patient
@@ -36,8 +38,7 @@ const patientService = {
   /**
    * Delete a patient
    */
-  delete: (id) =>
-    api.delete(`${ENDPOINT}/${id}`).then((res) => res.data),
+  delete: (id) => api.delete(`${ENDPOINT}/${id}`).then((res) => res.data),
 };
 
 export default patientService;
