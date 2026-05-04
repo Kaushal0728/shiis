@@ -1,9 +1,12 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
 const pageTitles = {
   '/': 'Dashboard',
+  '/users': 'User Management',
+  '/users/new': 'Create User',
   '/patients': 'Patient Management',
   '/patients/new': 'Register Patient',
   '/doctors': 'Doctor Management',
@@ -17,18 +20,30 @@ const pageTitles = {
 
 export default function DashboardLayout() {
   const location = useLocation();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Match title from path (handle dynamic routes like /patients/:id/edit)
   const title =
     pageTitles[location.pathname] ||
-    (location.pathname.includes('/patients') ? 'Patient Management' : 'SHIIS');
+    (location.pathname.includes('/users')
+      ? 'User Management'
+      : location.pathname.includes('/patients')
+        ? 'Patient Management'
+        : 'SHIIS');
 
   return (
     <div className="flex min-h-screen bg-surface-950">
-      <Sidebar />
+      <Sidebar
+        collapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
+      />
 
-      {/* Main Content — offset by sidebar width */}
-      <div className="flex-1 ml-[260px] transition-all duration-300 flex flex-col">
+      {/* Main content offset follows sidebar width */}
+      <div
+        className={`flex-1 transition-all duration-300 flex flex-col ${
+          isSidebarCollapsed ? 'ml-20' : 'ml-[260px]'
+        }`}
+      >
         <Header title={title} />
 
         <main className="flex-1 p-6">

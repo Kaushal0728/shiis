@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import sql from 'mssql/msnodesqlv8';
 
 export default registerAs('database', () => {
   const rawHost = process.env.DB_HOST || 'localhost';
@@ -34,7 +35,7 @@ export default registerAs('database', () => {
 
   return {
     type: 'mssql' as const,
-    driver: require('mssql/msnodesqlv8'),
+    driver: sql,
     host: normalizedHost,
     port: parseInt(process.env.DB_PORT ?? '1433', 10),
     database,
