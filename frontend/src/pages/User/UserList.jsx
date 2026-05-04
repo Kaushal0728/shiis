@@ -81,12 +81,16 @@ export default function UserList() {
       label: "User",
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/30 to-accent-500/30 flex items-center justify-center text-xs font-bold text-primary-400 border border-primary-500/20">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
             {(row.username || row.name || "U").charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="font-medium text-white">{row.username || row.name || "-"}</p>
-            <p className="text-xs text-surface-500">{row.roleName || row.role || "-"}</p>
+            <p className="font-medium text-surface-900">
+              {row.username || row.name || "-"}
+            </p>
+            <p className="text-xs text-surface-500">
+              {row.roleName || row.role || "-"}
+            </p>
           </div>
         </div>
       ),
@@ -131,8 +135,10 @@ export default function UserList() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Users</h1>
-          <p className="text-sm text-surface-400 mt-1">Manage system users and roles</p>
+          <h1 className="text-2xl font-bold text-surface-900">Users</h1>
+          <p className="text-sm text-surface-500 mt-1">
+            Manage system users and roles
+          </p>
         </div>
         <Button onClick={() => navigate("/users/new")}>
           <Plus className="w-4 h-4" />
@@ -150,12 +156,12 @@ export default function UserList() {
             setSearch(e.target.value);
             setPage(1);
           }}
-          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-surface-800/60 border border-surface-700/40 text-sm text-surface-200 placeholder-surface-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-white border border-surface-300/60 text-sm text-surface-700 placeholder-surface-400 focus:outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/20 transition-all"
         />
       </div>
 
       {error && (
-        <div className="px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400">
+        <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600">
           {error}
         </div>
       )}
@@ -180,12 +186,18 @@ export default function UserList() {
         title="Delete User"
         size="sm"
       >
-        <p className="text-sm text-surface-300 mb-6">
-          Are you sure you want to delete <strong className="text-white">{deleteModal.user?.username || deleteModal.user?.name}</strong>?
-          This action cannot be undone.
+        <p className="text-sm text-surface-600 mb-6">
+          Are you sure you want to delete{" "}
+          <strong className="text-surface-900">
+            {deleteModal.user?.username || deleteModal.user?.name}
+          </strong>
+          ? This action cannot be undone.
         </p>
         <div className="flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => setDeleteModal({ open: false, user: null })}>
+          <Button
+            variant="secondary"
+            onClick={() => setDeleteModal({ open: false, user: null })}
+          >
             Cancel
           </Button>
           <Button variant="danger" onClick={handleDelete} loading={deleting}>

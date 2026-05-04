@@ -26,9 +26,9 @@ export default function Header({ title = "Dashboard" }) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-6 bg-surface-900/60 backdrop-blur-xl border-b border-surface-700/30">
+    <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-6 bg-white/90 backdrop-blur-xl border-b border-surface-300/50 shadow-sm">
       {/* Page Title */}
-      <h2 className="text-lg font-semibold text-white">{title}</h2>
+      <h2 className="text-lg font-semibold text-surface-900">{title}</h2>
 
       {/* Right Section */}
       <div className="flex items-center gap-3">
@@ -38,12 +38,12 @@ export default function Header({ title = "Dashboard" }) {
           <input
             type="text"
             placeholder="Search..."
-            className="w-60 pl-9 pr-4 py-2 rounded-lg bg-surface-800/60 border border-surface-700/40 text-sm text-surface-200 placeholder-surface-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+            className="w-60 pl-9 pr-4 py-2 rounded-lg bg-surface-100 border border-surface-300/60 text-sm text-surface-700 placeholder-surface-400 focus:outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/20 transition-all"
           />
         </div>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-lg text-surface-400 hover:text-white hover:bg-surface-800/60 transition-colors">
+        <button className="relative p-2 rounded-lg text-surface-400 hover:text-surface-700 hover:bg-surface-100 transition-colors">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger rounded-full"></span>
         </button>
@@ -52,31 +52,33 @@ export default function Header({ title = "Dashboard" }) {
           <button
             type="button"
             onClick={() => setIsAccountOpen((prev) => !prev)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-800/60 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-surface-100 transition-colors"
           >
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center"
               style={{
                 backgroundImage:
-                  "linear-gradient(135deg, #0d9488 0%, #4f46e5 100%)",
+                  "linear-gradient(135deg, #16a34a 0%, #10b981 100%)",
               }}
             >
               <UserCircle className="w-5 h-5 text-white" />
             </div>
-            <span className="text-sm font-medium text-surface-300 hidden lg:block">
+            <span className="text-sm font-medium text-surface-600 hidden lg:block">
               {user?.username || "Admin"}
             </span>
           </button>
 
           {isAccountOpen && (
-            <div className="absolute right-0 mt-2 w-60 rounded-xl border border-surface-700/40 bg-surface-900/95 shadow-xl p-4">
-              <p className="text-xs uppercase tracking-wide text-surface-500">
+            <div className="absolute right-0 mt-2 w-60 rounded-xl border border-surface-300/60 bg-white shadow-xl p-4">
+              <p className="text-xs uppercase tracking-wide text-surface-400">
                 Account Details
               </p>
-              <p className="mt-2 text-sm font-semibold text-white">
+              <p className="mt-2 text-sm font-semibold text-surface-900">
                 {user?.username || "Admin"}
               </p>
-              <p className="text-xs text-surface-400">{user?.roleName || "User"}</p>
+              <p className="text-xs text-surface-500">
+                {user?.roleName || "User"}
+              </p>
             </div>
           )}
         </div>
@@ -84,7 +86,7 @@ export default function Header({ title = "Dashboard" }) {
         <button
           type="button"
           onClick={handleSignOut}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-surface-300 hover:text-white hover:bg-surface-800/60 transition-colors"
+          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-surface-500 hover:text-surface-900 hover:bg-surface-100 transition-colors"
         >
           <LogOut className="w-4 h-4" />
         </button>

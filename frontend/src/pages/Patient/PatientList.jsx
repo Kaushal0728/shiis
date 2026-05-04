@@ -1,11 +1,11 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Trash2, Edit3 } from 'lucide-react';
-import patientService from '../../api/services/patientService';
-import DataTable from '../../components/common/DataTable';
-import Button from '../../components/common/Button';
-import Loader from '../../components/common/Loader';
-import Modal from '../../components/common/Modal';
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { Plus, Search, Trash2, Edit3 } from "lucide-react";
+import patientService from "../../api/services/patientService";
+import DataTable from "../../components/common/DataTable";
+import Button from "../../components/common/Button";
+import Loader from "../../components/common/Loader";
+import Modal from "../../components/common/Modal";
 
 export default function PatientList() {
   const navigate = useNavigate();
@@ -13,8 +13,11 @@ export default function PatientList() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [search, setSearch] = useState('');
-  const [deleteModal, setDeleteModal] = useState({ open: false, patient: null });
+  const [search, setSearch] = useState("");
+  const [deleteModal, setDeleteModal] = useState({
+    open: false,
+    patient: null,
+  });
   const [deleting, setDeleting] = useState(false);
   const limit = 15;
 
@@ -31,7 +34,7 @@ export default function PatientList() {
         setTotal(result.total || 0);
       }
     } catch (err) {
-      console.error('Failed to fetch patients:', err);
+      console.error("Failed to fetch patients:", err);
       setPatients([]);
     } finally {
       setLoading(false);
@@ -51,7 +54,7 @@ export default function PatientList() {
       setDeleteModal({ open: false, patient: null });
       fetchPatients();
     } catch (err) {
-      console.error('Failed to delete patient:', err);
+      console.error("Failed to delete patient:", err);
     } finally {
       setDeleting(false);
     }
@@ -59,48 +62,53 @@ export default function PatientList() {
 
   const columns = [
     {
-      key: 'patientId',
-      label: 'ID',
-      width: '70px',
+      key: "patientId",
+      label: "ID",
+      width: "70px",
       render: (row) => (
-        <span className="text-surface-500 font-mono text-xs">#{row.patientId}</span>
+        <span className="text-surface-500 font-mono text-xs">
+          #{row.patientId}
+        </span>
       ),
     },
     {
-      key: 'name',
-      label: 'Patient Name',
+      key: "name",
+      label: "Patient Name",
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/30 to-accent-500/30 flex items-center justify-center text-xs font-bold text-primary-400 border border-primary-500/20">
-            {row.firstName?.[0]}{row.lastName?.[0]}
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
+            {row.firstName?.[0]}
+            {row.lastName?.[0]}
           </div>
           <div>
-            <p className="font-medium text-white">{row.firstName} {row.lastName}</p>
-            <p className="text-xs text-surface-500">{row.email || '—'}</p>
+            <p className="font-medium text-surface-900">
+              {row.firstName} {row.lastName}
+            </p>
+            <p className="text-xs text-surface-500">{row.email || "—"}</p>
           </div>
         </div>
       ),
     },
     {
-      key: 'gender',
-      label: 'Gender',
-      render: (row) => row.gender || '—',
+      key: "gender",
+      label: "Gender",
+      render: (row) => row.gender || "—",
     },
     {
-      key: 'dob',
-      label: 'Date of Birth',
+      key: "dob",
+      label: "Date of Birth",
       render: (row) =>
-        row.dob ? new Date(row.dob).toLocaleDateString('en-IN') : '—',
+        row.dob ? new Date(row.dob).toLocaleDateString("en-IN") : "—",
     },
     {
-      key: 'phone',
-      label: 'Phone',
-      render: (row) => row.phone || '—',
+      key: "phone",
+      label: "Phone",
+      render: (row) => row.phone || "—",
     },
     {
-      key: 'actions',
-      label: 'Actions',
-      width: '120px',
+      key: "actions",
+      label: "Actions",
+      width: "120px",
       render: (row) => (
         <div className="flex items-center gap-1">
           <button
@@ -133,12 +141,12 @@ export default function PatientList() {
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white">Patients</h1>
-          <p className="text-sm text-surface-400 mt-1">
+          <h1 className="text-2xl font-bold text-surface-900">Patients</h1>
+          <p className="text-sm text-surface-500 mt-1">
             Manage patient records and medical information
           </p>
         </div>
-        <Button onClick={() => navigate('/patients/new')}>
+        <Button onClick={() => navigate("/patients/new")}>
           <Plus className="w-4 h-4" />
           Add Patient
         </Button>
@@ -155,7 +163,7 @@ export default function PatientList() {
             setSearch(e.target.value);
             setPage(1);
           }}
-          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-surface-800/60 border border-surface-700/40 text-sm text-surface-200 placeholder-surface-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+          className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-white border border-surface-300/60 text-sm text-surface-700 placeholder-surface-400 focus:outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/20 transition-all"
         />
       </div>
 
@@ -180,9 +188,9 @@ export default function PatientList() {
         title="Delete Patient"
         size="sm"
       >
-        <p className="text-sm text-surface-300 mb-6">
-          Are you sure you want to delete{' '}
-          <strong className="text-white">
+        <p className="text-sm text-surface-600 mb-6">
+          Are you sure you want to delete{" "}
+          <strong className="text-surface-900">
             {deleteModal.patient?.firstName} {deleteModal.patient?.lastName}
           </strong>
           ? This action cannot be undone.

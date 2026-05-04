@@ -1,12 +1,12 @@
 export default function FormInput({
   label,
   name,
-  type = 'text',
+  type = "text",
   value,
   onChange,
   error,
   required = false,
-  placeholder = '',
+  placeholder = "",
   ...props
 }) {
   return (
@@ -14,7 +14,7 @@ export default function FormInput({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-surface-300"
+          className="block text-sm font-medium text-surface-600"
         >
           {label}
           {required && <span className="text-red-400 ml-0.5">*</span>}
@@ -30,12 +30,13 @@ export default function FormInput({
         required={required}
         className={`
           w-full px-3.5 py-2.5 rounded-[var(--radius-input)] text-sm
-          bg-surface-800/60 border text-surface-200
-          placeholder-surface-500
+          bg-white border text-surface-800
+          placeholder-surface-400
           focus:outline-none focus:ring-2 transition-all duration-200
-          ${error
-            ? 'border-red-500/50 focus:ring-red-500/20 focus:border-red-500/60'
-            : 'border-surface-700/40 focus:ring-primary-500/20 focus:border-primary-500/50'
+          ${
+            error
+              ? "border-red-400/60 focus:ring-red-500/20 focus:border-red-500/60"
+              : "border-surface-300/70 focus:ring-primary-500/20 focus:border-primary-500/60"
           }
         `}
         {...props}

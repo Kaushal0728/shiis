@@ -59,19 +59,19 @@ export default function Sidebar({ collapsed = false, onToggleCollapse }) {
     <aside
       className={`fixed top-0 left-0 h-screen z-40 flex flex-col transition-all duration-300 ease-in-out
         ${collapsed ? "w-20" : "w-[260px]"}
-        bg-surface-900/80 backdrop-blur-2xl border-r border-surface-700/40`}
+        bg-white border-r border-surface-300/60 shadow-sm`}
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-5 h-16 border-b border-surface-700/40">
+      <div className="flex items-center gap-3 px-5 h-16 border-b border-surface-300/60">
         <div className="w-9 h-9 rounded-lg bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center shrink-0">
           <Activity className="w-5 h-5 text-white" />
         </div>
         {!collapsed && (
           <div className="animate-fade-in">
-            <h1 className="text-base font-bold text-white tracking-tight leading-none">
+            <h1 className="text-base font-bold text-surface-900 tracking-tight leading-none">
               SHIIS
             </h1>
-            <p className="text-[10px] text-surface-400 leading-none mt-0.5">
+            <p className="text-[10px] text-surface-500 leading-none mt-0.5">
               Healthcare Intelligence
             </p>
           </div>
@@ -91,8 +91,8 @@ export default function Sidebar({ collapsed = false, onToggleCollapse }) {
               }
               ${
                 isActive
-                  ? "bg-primary-500/15 text-primary-400 shadow-[inset_0_0_0_1px_rgba(13,148,136,0.2)]"
-                  : "text-surface-400 hover:text-white hover:bg-surface-800/60"
+                  ? "bg-primary-500/10 text-primary-600 shadow-[inset_0_0_0_1px_rgba(22,163,74,0.2)]"
+                  : "text-surface-500 hover:text-surface-900 hover:bg-surface-100"
               }`
             }
             title={collapsed ? item.label : undefined}
@@ -111,7 +111,7 @@ export default function Sidebar({ collapsed = false, onToggleCollapse }) {
       <button
         type="button"
         onClick={onToggleCollapse}
-        className="flex items-center justify-center h-12 border-t border-surface-700/40 text-surface-400 hover:text-white hover:bg-surface-800/60 transition-colors"
+        className="flex items-center justify-center h-12 border-t border-surface-300/60 text-surface-400 hover:text-surface-700 hover:bg-surface-100 transition-colors"
       >
         {collapsed ? (
           <ChevronRight className="w-4 h-4" />
