@@ -19,12 +19,15 @@ import { PatientModule } from './modules/patient/patient.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mssql',
+        driver: configService.get<any>('database.driver'),
         host: configService.get<string>('database.host'),
         port: configService.get<number>('database.port'),
-        username: configService.get<string>('database.username'),
-        password: configService.get<string>('database.password'),
         database: configService.get<string>('database.database'),
+        extra: configService.get<Record<string, unknown>>('database.extra'),
         options: {
+          trustedConnection: configService.get<boolean>(
+            'database.options.trustedConnection',
+          ),
           encrypt: configService.get<boolean>('database.options.encrypt'),
           trustServerCertificate: configService.get<boolean>(
             'database.options.trustServerCertificate',
