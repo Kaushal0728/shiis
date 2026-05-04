@@ -4,14 +4,14 @@ A production-ready full-stack healthcare management platform with modular archit
 
 ## Tech Stack
 
-| Layer      | Technology                              |
-| ---------- | --------------------------------------- |
-| Frontend   | React 18 (Vite) + Tailwind CSS v4      |
-| Backend    | NestJS 11 (TypeScript)                  |
-| Database   | Microsoft SQL Server (SQL Express)      |
-| ORM        | TypeORM                                 |
-| HTTP       | Axios                                   |
-| Icons      | Lucide React                            |
+| Layer    | Technology                         |
+| -------- | ---------------------------------- |
+| Frontend | React 18 (Vite) + Tailwind CSS v4  |
+| Backend  | NestJS 11 (TypeScript)             |
+| Database | Microsoft SQL Server (SQL Express) |
+| ORM      | TypeORM                            |
+| HTTP     | Axios                              |
+| Icons    | Lucide React                       |
 
 ## Project Structure
 
@@ -40,11 +40,13 @@ shiis/
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - SQL Server Express (instance: `PLUS\SQLEXPRESS`)
 - Database `HealthcareInventoryDB` already created
 
 ### Backend
+
 ```bash
 cd backend
 npm install
@@ -52,6 +54,7 @@ npm run start:dev       # http://localhost:3000/api
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
@@ -60,16 +63,17 @@ npm run dev             # http://localhost:5173
 
 ## API Endpoints — Patient Module
 
-| Method   | Endpoint             | Description        |
-| -------- | -------------------- | ------------------ |
-| `GET`    | `/api/patients`      | List (paginated)   |
-| `GET`    | `/api/patients/:id`  | Get by ID          |
-| `POST`   | `/api/patients`      | Create             |
-| `PATCH`  | `/api/patients/:id`  | Update             |
-| `DELETE` | `/api/patients/:id`  | Delete             |
+| Method   | Endpoint            | Description      |
+| -------- | ------------------- | ---------------- |
+| `GET`    | `/api/patients`     | List (paginated) |
+| `GET`    | `/api/patients/:id` | Get by ID        |
+| `POST`   | `/api/patients`     | Create           |
+| `PATCH`  | `/api/patients/:id` | Update           |
+| `DELETE` | `/api/patients/:id` | Delete           |
 
 ## System Modules
 
+- ✅ User Management
 - ✅ Patient Management
 - 🚧 Doctor Management
 - 🚧 Appointment System
