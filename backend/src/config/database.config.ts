@@ -6,6 +6,31 @@ export default registerAs('database', () => {
   const database = process.env.DB_DATABASE || 'HealthcareInventoryDB';
   const encrypt = process.env.DB_ENCRYPT === 'true';
   const trustServerCertificate = process.env.DB_TRUST_CERT === 'true';
+  const username = process.env.DB_USER?.trim();
+  const password = process.env.DB_PASSWORD;
+  const useSqlAuthentication = Boolean(username && password !== undefined);
+  const connectionString = useSqlAuthentication
+    ? `Driver={ODBC Driver 18 for SQL Server};` +
+      `Server=${normalizedHost};` +
+      `Database=${database};` +
+      `Uid=${username};` +
+      `Pwd=${password};` +
+      `Encrypt=${encrypt ? 'Yes' : 'No'};` +
+      `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
+      'Persist Security Info=False;' +
+      'Pooling=False;' +
+      'MultipleActiveResultSets=False;' +
+      'Command Timeout=2147483647;'
+    : `Driver={ODBC Driver 18 for SQL Server};` +
+      `Server=${normalizedHost};` +
+      `Database=${database};` +
+      'Trusted_Connection=Yes;' +
+      `Encrypt=${encrypt ? 'Yes' : 'No'};` +
+      `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
+      'Persist Security Info=False;' +
+      'Pooling=False;' +
+      'MultipleActiveResultSets=False;' +
+      'Command Timeout=2147483647;';
 
   return {
     type: 'mssql' as const,
@@ -14,20 +39,10 @@ export default registerAs('database', () => {
     port: parseInt(process.env.DB_PORT ?? '1433', 10),
     database,
     extra: {
-      connectionString:
-        'Driver={ODBC Driver 18 for SQL Server};' +
-        `Server=${normalizedHost};` +
-        `Database=${database};` +
-        'Trusted_Connection=Yes;' +
-        `Encrypt=${encrypt ? 'Yes' : 'No'};` +
-        `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
-        'Persist Security Info=False;' +
-        'Pooling=False;' +
-        'MultipleActiveResultSets=False;' +
-        'Command Timeout=2147483647;',
+      connectionString,
     },
     options: {
-      trustedConnection: true,
+      trustedConnection: !useSqlAuthentication,
       encrypt,
       trustServerCertificate,
     },
