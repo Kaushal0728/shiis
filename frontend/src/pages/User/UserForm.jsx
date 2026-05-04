@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
+import { toast } from "react-toastify";
 import userService from "../../api/services/userService";
 import FormInput from "../../components/common/FormInput";
 import FormSelect from "../../components/common/FormSelect";
@@ -28,7 +29,6 @@ export default function UserForm() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     if (!isEdit) return;
@@ -46,7 +46,7 @@ export default function UserForm() {
       })
       .catch((err) => {
         const msg = err.response?.data?.message || "Failed to load user.";
-        setErrors({ submit: Array.isArray(msg) ? msg.join(", ") : msg });
+        toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
       })
       .finally(() => setFetching(false));
   }, [id, isEdit]);
@@ -61,18 +61,14 @@ export default function UserForm() {
 
   const validate = () => {
     const nextErrors = {};
-
     if (!form.username.trim()) nextErrors.username = "Username is required";
     if (!form.roleName) nextErrors.roleName = "Role is required";
-
     if (!isEdit && !form.password.trim()) {
       nextErrors.password = "Password is required";
     }
-
     if (form.password && form.password.length < 6) {
       nextErrors.password = "Password must be at least 6 characters";
     }
-
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -82,7 +78,6 @@ export default function UserForm() {
     if (!validate()) return;
 
     setLoading(true);
-    setSuccess("");
 
     try {
       const payload = {
@@ -96,19 +91,19 @@ export default function UserForm() {
 
       if (isEdit) {
         await userService.update(id, payload);
-        setSuccess("User updated successfully!");
+        toast.success("User updated successfully!");
       } else {
         await userService.create(payload);
-        setSuccess("User created successfully!");
+        toast.success("User created successfully!");
         setForm(initialForm);
       }
 
-      setTimeout(() => navigate("/users"), 1200);
+      setTimeout(() => navigate("/users"), 1000);
     } catch (err) {
       const msg =
         err.response?.data?.message ||
         "Something went wrong. Please try again.";
-      setErrors({ submit: Array.isArray(msg) ? msg.join(", ") : msg });
+      toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
     } finally {
       setLoading(false);
     }
@@ -139,18 +134,6 @@ export default function UserForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="glass-card p-6 space-y-5">
-        {success && (
-          <div className="px-4 py-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700 animate-fade-in">
-            {success}
-          </div>
-        )}
-
-        {errors.submit && (
-          <div className="px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600 animate-fade-in">
-            {errors.submit}
-          </div>
-        )}
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormInput
             label="Username"

@@ -105,8 +105,8 @@ export class PatientService {
       dobFrom,
       dobTo,
       includeDeleted,
-      sortBy = 'createdAt',
-      sortOrder = 'DESC',
+      sortBy = 'patientId',
+      sortOrder = 'ASC',
       page = 1,
       limit = 20,
     } = query;
@@ -145,7 +145,7 @@ export class PatientService {
     }
 
     // Sorting
-    const sortCol = SORT_COLUMN_MAP[sortBy] ?? 'p.created_at';
+    const sortCol = SORT_COLUMN_MAP[sortBy] ?? 'p.patient_id';
     qb.orderBy(sortCol, sortOrder);
 
     const [data, total] = await qb.getManyAndCount();

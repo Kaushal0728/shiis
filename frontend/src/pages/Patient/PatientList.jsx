@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus, Search, Trash2, Edit3 } from "lucide-react";
+import { toast } from "react-toastify";
 import patientService from "../../api/services/patientService";
 import DataTable from "../../components/common/DataTable";
 import Button from "../../components/common/Button";
@@ -33,8 +34,8 @@ export default function PatientList() {
         setPatients(result.data || []);
         setTotal(result.total || 0);
       }
-    } catch (err) {
-      console.error("Failed to fetch patients:", err);
+    } catch {
+      toast.error("Failed to fetch patients. Please try again.");
       setPatients([]);
     } finally {
       setLoading(false);
@@ -52,9 +53,13 @@ export default function PatientList() {
     try {
       await patientService.delete(deleteModal.patient.patientId);
       setDeleteModal({ open: false, patient: null });
+      toast.success(
+        `${deleteModal.patient.firstName} ${deleteModal.patient.lastName} has been archived.`,
+      );
       fetchPatients();
     } catch (err) {
-      console.error("Failed to delete patient:", err);
+      const msg = err.response?.data?.message || "Failed to delete patient.";
+      toast.error(Array.isArray(msg) ? msg.join(", ") : msg);
     } finally {
       setDeleting(false);
     }
@@ -76,7 +81,7 @@ export default function PatientList() {
       label: "Patient Name",
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
+          <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary-500/20 to-accent-500/20 flex items-center justify-center text-xs font-bold text-primary-600 border border-primary-500/20">
             {row.firstName?.[0]}
             {row.lastName?.[0]}
           </div>
@@ -178,6 +183,7 @@ export default function PatientList() {
           total={total}
           limit={limit}
           onPageChange={setPage}
+          onRowClick={(row) => navigate(`/patients/${row.patientId}`)}
         />
       )}
 
@@ -185,15 +191,15 @@ export default function PatientList() {
       <Modal
         isOpen={deleteModal.open}
         onClose={() => setDeleteModal({ open: false, patient: null })}
-        title="Delete Patient"
+        title="Archive Patient"
         size="sm"
       >
         <p className="text-sm text-surface-600 mb-6">
-          Are you sure you want to delete{" "}
+          Are you sure you want to archive{" "}
           <strong className="text-surface-900">
             {deleteModal.patient?.firstName} {deleteModal.patient?.lastName}
           </strong>
-          ? This action cannot be undone.
+          ? The record will be preserved and can be restored later.
         </p>
         <div className="flex justify-end gap-3">
           <Button
@@ -203,7 +209,7 @@ export default function PatientList() {
             Cancel
           </Button>
           <Button variant="danger" onClick={handleDelete} loading={deleting}>
-            Delete
+            Archive
           </Button>
         </div>
       </Modal>

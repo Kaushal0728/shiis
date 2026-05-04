@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Hospital, ShieldCheck } from "lucide-react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Button from "../../components/common/Button";
 import FormInput from "../../components/common/FormInput";
 import { useAuth } from "../../contexts/useAuth";
@@ -51,10 +52,11 @@ export default function Login() {
         navigate(nextPath, { replace: true });
       })
       .catch((loginError) => {
-        setError(
+        const msg =
           loginError.response?.data?.message ||
-            "Login failed. Check your username and password.",
-        );
+          "Login failed. Check your username and password.";
+        setError(msg);
+        toast.error(msg);
       })
       .finally(() => setLoading(false));
   };
