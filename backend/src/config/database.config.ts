@@ -1,18 +1,53 @@
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('database', () => ({
-  type: 'mssql' as const,
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT ?? '1433', 10),
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE || 'HealthcareInventoryDB',
-  options: {
-    encrypt: process.env.DB_ENCRYPT === 'true',
-    trustServerCertificate: process.env.DB_TRUST_CERT === 'true',
-    instanceName: process.env.DB_INSTANCE || undefined,
-  },
-  autoLoadEntities: true,
-  synchronize: false, // Never auto-sync — we use SQL scripts
-  logging: process.env.NODE_ENV === 'development',
-}));
+export default registerAs('database', () => {
+  const rawHost = process.env.DB_HOST || 'localhost';
+  const normalizedHost = rawHost.replace(/\\\\/g, '\\');
+  const database = process.env.DB_DATABASE || 'HealthcareInventoryDB';
+  const encrypt = process.env.DB_ENCRYPT === 'true';
+  const trustServerCertificate = process.env.DB_TRUST_CERT === 'true';
+  const username = process.env.DB_USER?.trim();
+  const password = process.env.DB_PASSWORD;
+  const useSqlAuthentication = Boolean(username && password !== undefined);
+  const connectionString = useSqlAuthentication
+    ? `Driver={ODBC Driver 18 for SQL Server};` +
+      `Server=${normalizedHost};` +
+      `Database=${database};` +
+      `Uid=${username};` +
+      `Pwd=${password};` +
+      `Encrypt=${encrypt ? 'Yes' : 'No'};` +
+      `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
+      'Persist Security Info=False;' +
+      'Pooling=False;' +
+      'MultipleActiveResultSets=False;' +
+      'Command Timeout=2147483647;'
+    : `Driver={ODBC Driver 18 for SQL Server};` +
+      `Server=${normalizedHost};` +
+      `Database=${database};` +
+      'Trusted_Connection=Yes;' +
+      `Encrypt=${encrypt ? 'Yes' : 'No'};` +
+      `TrustServerCertificate=${trustServerCertificate ? 'Yes' : 'No'};` +
+      'Persist Security Info=False;' +
+      'Pooling=False;' +
+      'MultipleActiveResultSets=False;' +
+      'Command Timeout=2147483647;';
+
+  return {
+    type: 'mssql' as const,
+    driver: require('mssql/msnodesqlv8'),
+    host: normalizedHost,
+    port: parseInt(process.env.DB_PORT ?? '1433', 10),
+    database,
+    extra: {
+      connectionString,
+    },
+    options: {
+      trustedConnection: !useSqlAuthentication,
+      encrypt,
+      trustServerCertificate,
+    },
+    autoLoadEntities: true,
+    synchronize: false, // Never auto-sync — we use SQL scripts
+    logging: process.env.NODE_ENV === 'development',
+  };
+});
