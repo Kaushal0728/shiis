@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* ══════════════════════════════════════════════
+   SHIIS — Design System Tokens
+   ══════════════════════════════════════════════ */
+
+@theme {
+  /* Primary — Deep Medical Teal */
+  --color-primary-50: #e6f7f7;
+  --color-primary-100: #b3e8e8;
+  --color-primary-200: #80d9d9;
+  --color-primary-300: #4dcaca;
+  --color-primary-400: #26bfbf;
+  --color-primary-500: #0d9488;
+  --color-primary-600: #0b7a70;
+  --color-primary-700: #086058;
+  --color-primary-800: #054640;
+  --color-primary-900: #032c28;
+
+  /* Accent — Vibrant Indigo */
+  --color-accent-50: #eef0ff;
+  --color-accent-100: #d9ddff;
+  --color-accent-200: #b3b8ff;
+  --color-accent-300: #8c93ff;
+  --color-accent-400: #6366f1;
+  --color-accent-500: #4f46e5;
+  --color-accent-600: #4338ca;
+  --color-accent-700: #3730a3;
+  --color-accent-800: #312e81;
+  --color-accent-900: #1e1b4b;
+
+  /* Surface — Slate Palette for Dark Mode */
+  --color-surface-50: #f8fafc;
+  --color-surface-100: #f1f5f9;
+  --color-surface-200: #e2e8f0;
+  --color-surface-300: #cbd5e1;
+  --color-surface-400: #94a3b8;
+  --color-surface-500: #64748b;
+  --color-surface-600: #475569;
+  --color-surface-700: #334155;
+  --color-surface-800: #1e293b;
+  --color-surface-900: #0f172a;
+  --color-surface-950: #020617;
+
+  /* Status */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Radius */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+  --radius-input: 0.5rem;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(13, 148, 136, 0.2);
+}
+
+/* ══════════════════════════════════════════════
+   Base Styles
+   ══════════════════════════════════════════════ */
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  body {
+    @apply bg-surface-950 text-surface-200 antialiased;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply text-white font-semibold tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-surface-500;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   Animations
+   ══════════════════════════════════════════════ */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(13, 148, 136, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(13, 148, 136, 0.6); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slide-in-left 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════
+   Glass Card Effect
+   ══════════════════════════════════════════════ */
+
+.glass-card {
+  @apply bg-surface-800/50 backdrop-blur-xl border border-surface-700/50 rounded-[var(--radius-card)];
+  box-shadow: var(--shadow-card);
+}
+
+.glass-card:hover {
+  @apply border-surface-600/50;
+  box-shadow: var(--shadow-elevated);
+}

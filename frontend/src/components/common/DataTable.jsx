@@ -1,0 +1,108 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+export default function DataTable({
+  columns = [],
+  data = [],
+  page = 1,
+  total = 0,
+  limit = 20,
+  onPageChange,
+  onRowClick,
+  emptyMessage = 'No records found',
+}) {
+  const totalPages = Math.ceil(total / limit) || 1;
+
+  return (
+    <div className="glass-card overflow-hidden">
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-surface-700/40">
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className="px-4 py-3 text-left text-xs font-semibold text-surface-400 uppercase tracking-wider"
+                  style={{ width: col.width }}
+                >
+                  {col.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-surface-700/30">
+            {data.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-4 py-12 text-center text-surface-500"
+                >
+                  {emptyMessage}
+                </td>
+              </tr>
+            ) : (
+              data.map((row, idx) => (
+                <tr
+                  key={row.id || row.patientId || idx}
+                  onClick={() => onRowClick?.(row)}
+                  className={`transition-colors duration-150
+                    ${onRowClick ? 'cursor-pointer hover:bg-surface-700/30' : ''}
+                  `}
+                >
+                  {columns.map((col) => (
+                    <td key={col.key} className="px-4 py-3 text-surface-300">
+                      {col.render ? col.render(row) : row[col.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      {total > limit && (
+        <div className="flex items-center justify-between px-4 py-3 border-t border-surface-700/40">
+          <p className="text-xs text-surface-400">
+            Showing {(page - 1) * limit + 1}–{Math.min(page * limit, total)} of{' '}
+            {total}
+          </p>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => onPageChange?.(page - 1)}
+              disabled={page <= 1}
+              className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+              const pageNum = i + 1;
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => onPageChange?.(pageNum)}
+                  className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors
+                    ${pageNum === page
+                      ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+                      : 'text-surface-400 hover:text-white hover:bg-surface-700/50'
+                    }
+                  `}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+            <button
+              onClick={() => onPageChange?.(page + 1)}
+              disabled={page >= totalPages}
+              className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
