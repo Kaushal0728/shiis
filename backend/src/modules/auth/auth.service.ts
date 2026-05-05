@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { UserEntity } from './entities/user.entity';
 
@@ -13,16 +14,23 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const username = loginDto.username.trim();
-    const password = loginDto.password;
 
+    // Fetch by username only — never compare plain passwords in a query
     const user = await this.userRepository.findOne({
-      where: {
-        username,
-        password,
-      },
+      where: { username },
     });
 
-    if (!user) {
+    if (!user || !user.password) {
+      throw new UnauthorizedException('Invalid username or password');
+    }
+
+    // Constant-time bcrypt comparison
+    const passwordMatch = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    );
+
+    if (!passwordMatch) {
       throw new UnauthorizedException('Invalid username or password');
     }
 
