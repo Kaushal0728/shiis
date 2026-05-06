@@ -6,10 +6,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { UserEntity } from '../auth/entities/user.entity';
 import { RoleEntity } from '../auth/entities/role.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+
+const SALT_ROUNDS = 12;
 
 @Injectable()
 export class UsersService {
@@ -84,9 +87,11 @@ export class UsersService {
   async create(dto: CreateUserDto) {
     const role = await this.findRole(dto.roleName);
 
+    const hashedPassword = await bcrypt.hash(dto.password, SALT_ROUNDS);
+
     const user = this.userRepository.create({
       username: dto.username.trim(),
-      password: dto.password,
+      password: hashedPassword,
       role,
     });
 
@@ -107,7 +112,7 @@ export class UsersService {
     }
 
     if (dto.password) {
-      user.password = dto.password;
+      user.password = await bcrypt.hash(dto.password, SALT_ROUNDS);
     }
 
     if (dto.roleName) {
