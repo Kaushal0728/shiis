@@ -9,6 +9,9 @@ import PatientForm from "./pages/Patient/PatientForm";
 import PatientDetail from "./pages/Patient/PatientDetail";
 import UserList from "./pages/User/UserList";
 import UserForm from "./pages/User/UserForm";
+import AppointmentList from "./pages/Appointment/AppointmentList";
+import AppointmentForm from "./pages/Appointment/AppointmentForm";
+import AppointmentDetail from "./pages/Appointment/AppointmentDetail";
 import { useAuth } from "./contexts/useAuth";
 
 function ComingSoon({ name }) {
@@ -55,7 +58,19 @@ export default function App() {
             />
             <Route
               path="/appointments"
-              element={<ComingSoon name="Appointment System" />}
+              element={<AppointmentList />}
+            />
+            <Route
+              path="/appointments/new"
+              element={<AppointmentForm />}
+            />
+            <Route
+              path="/appointments/:id"
+              element={<AppointmentDetail />}
+            />
+            <Route
+              path="/appointments/:id/edit"
+              element={<AppointmentForm />}
             />
             <Route
               path="/prescriptions"
