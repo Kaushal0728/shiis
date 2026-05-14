@@ -12,10 +12,6 @@ import UserForm from "./pages/User/UserForm";
 import AppointmentList from "./pages/Appointment/AppointmentList";
 import AppointmentForm from "./pages/Appointment/AppointmentForm";
 import AppointmentDetail from "./pages/Appointment/AppointmentDetail";
-import LabList from "./pages/Lab/LabList";
-import LabForm from "./pages/Lab/LabForm";
-import LabDetail from "./pages/Lab/LabDetail";
-import LabTestCatalog from "./pages/Lab/LabTestCatalog";
 import { useAuth } from "./contexts/useAuth";
 
 function ComingSoon({ name }) {
@@ -92,11 +88,7 @@ export default function App() {
               path="/billing"
               element={<ComingSoon name="Billing System" />}
             />
-            <Route path="/lab" element={<LabList />} />
-            <Route path="/lab/new" element={<LabForm />} />
-            <Route path="/lab/tests" element={<LabTestCatalog />} />
-            <Route path="/lab/:id" element={<LabDetail />} />
-            <Route path="/lab/:id/edit" element={<LabForm />} />
+            <Route path="/lab" element={<ComingSoon name="Lab Management" />} />
           </Route>
         </Route>
 
